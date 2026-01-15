@@ -1,69 +1,85 @@
-import React, { useEffect, useState } from "react";
+// src/pages/ClientesPage.tsx
+import { useEffect, useState } from "react";
+import { listarClientes, crearCliente } from "../services/clientesService";
 import type { ClienteDTO } from "../dto/ClienteDTO";
-import { getClientes, crearCliente } from "../services/clienteService";
+import Card from "../components/Card";
 
-export const ClientesPage = () => {
+export default function ClientesPage() {
   const [clientes, setClientes] = useState<ClienteDTO[]>([]);
   const [nombre, setNombre] = useState("");
-  const [nit, setNit] = useState("");
   const [email, setEmail] = useState("");
+  const [nit, setNit] = useState("");
 
-  const fetchClientes = async () => {
-    const data = await getClientes();
-    setClientes(data);
+  const cargarClientes = () => {
+    listarClientes().then(setClientes).catch(console.error);
   };
 
   useEffect(() => {
-    fetchClientes();
+    cargarClientes();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await crearCliente({ nombre, nit, email });
-    setNombre("");
-    setNit("");
-    setEmail("");
-    fetchClientes();
+  const guardarCliente = async () => {
+    if (!nombre || !email || !nit) {
+      alert("Complete todos los campos");
+      return;
+    }
+
+    await crearCliente({ id: crypto.randomUUID(), nombre, email, nit });
+    setNombre(""); setEmail(""); setNit("");
+    cargarClientes();
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Clientes</h1>
+    <div>
+      <Card title="Registrar Cliente">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <input
+            className="border p-2 rounded"
+            placeholder="Nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+          />
+          <input
+            className="border p-2 rounded"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className="border p-2 rounded"
+            placeholder="NIT"
+            value={nit}
+            onChange={(e) => setNit(e.target.value)}
+          />
+          <button
+            onClick={guardarCliente}
+            className="bg-blue-600 text-white px-4 py-2 rounded col-span-full md:col-auto"
+          >
+            Guardar
+          </button>
+        </div>
+      </Card>
 
-      <form onSubmit={handleSubmit} className="mb-4 space-y-2">
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          className="border p-2 rounded w-full"
-        />
-        <input
-          type="text"
-          placeholder="NIT"
-          value={nit}
-          onChange={(e) => setNit(e.target.value)}
-          className="border p-2 rounded w-full"
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 rounded w-full"
-        />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-          Crear Cliente
-        </button>
-      </form>
-
-      <ul className="space-y-2">
-        {clientes.map((c) => (
-          <li key={c.id} className="border p-2 rounded">
-            {c.nombre} - {c.nit} - {c.email}
-          </li>
-        ))}
-      </ul>
+      <Card title="Clientes Registrados">
+        <table className="w-full border-collapse border">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="border p-2">Nombre</th>
+              <th className="border p-2">Email</th>
+              <th className="border p-2">NIT</th>
+            </tr>
+          </thead>
+          <tbody>
+            {clientes.map((c) => (
+              <tr key={c.id}>
+                <td className="border p-2">{c.nombre}</td>
+                <td className="border p-2">{c.email}</td>
+                <td className="border p-2">{c.nit}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Card>
     </div>
   );
-};
+}

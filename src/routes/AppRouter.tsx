@@ -1,27 +1,23 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import MainLayout from '../layout/MainLayout'
-
-import Login from '../pages/Login'
-import Dashboard from '../pages/Dashboard'
-import Clientes from '../pages/ClientesPage'
-import Cotizaciones from '../pages/CotizacionesPage'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Dashboard from "../pages/Dashboard";
+import ClientesPage from "../pages/ClientesPage";
+import CotizacionesPage from "../pages/CotizacionesPage";
+import MainLayout from "../layout/MainLayout";
+import UsuariosPage from "../pages/UsuariosPage";
+import Login from "../pages/Login";
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-
-        {/* LOGIN (sin layout) */}
-        <Route path="/" element={<Login />} />
-
-        {/* SISTEMA */}
         <Route element={<MainLayout />}>
+        <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/clientes" element={<Clientes />} />
-          <Route path="/cotizaciones" element={<Cotizaciones />} />
+          <Route path="/clientes" element={<ClientesPage />} />
+          <Route path="/cotizaciones" element={<CotizacionesPage />} />
+          <Route path="/usuarios" element={<UsuariosPage />} />
         </Route>
-
       </Routes>
     </BrowserRouter>
-  )
+  );
 }

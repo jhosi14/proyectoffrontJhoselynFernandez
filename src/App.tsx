@@ -1,13 +1,8 @@
-import ClientesPage from "./pages/ClientesPage";
-import CotizacionesPage from "./pages/CotizacionesPage";
+import AppRouter from "./routes/AppRouter";
+import "./index.css"; // Tailwind
 
 function App() {
-  return (
-    <div className="space-y-10">
-      <ClientesPage />
-      <CotizacionesPage />
-    </div>
-  );
+  return <AppRouter />; // <-- Todo dentro de BrowserRouter
 }
 
 export default App;

@@ -1,7 +1,7 @@
 import api from "../api/axios";
 import type { CotizacionDTO } from "../dto/CotizacionDTO";
 
-export const obtenerCotizaciones = async () => {
+export const obtenerCotizaciones = async (): Promise<CotizacionDTO[]> => {
   const response = await api.get<CotizacionDTO[]>("/cotizaciones");
   return response.data;
 };

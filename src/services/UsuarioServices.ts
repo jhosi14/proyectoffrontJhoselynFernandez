@@ -1,7 +1,7 @@
 import api from "../api/axios";
 import type { UsuarioDTO } from "../dto/UsuarioDTO";
 
-export const getUsuarios = async () => {
+export const listarUsuarios = async () => {
   const response = await api.get<UsuarioDTO[]>("/usuarios");
   return response.data;
 };

@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^1.13.2",
+    "@chakra-ui/react": "^2.x.x",
+  "@emotion/react": "^11.x.x",
+  "@emotion/styled": "^11.x.x",
+  "framer-motion": "^10.x.x",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.12.0",

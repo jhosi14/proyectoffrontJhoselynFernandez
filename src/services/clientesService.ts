@@ -1,7 +1,7 @@
 import api from "../api/axios";
 import type { ClienteDTO } from "../dto/ClienteDTO";
 
-export const getClientes = async () => {
+export const listarClientes = async (): Promise<ClienteDTO[]> => {
   const response = await api.get<ClienteDTO[]>("/clientes");
   return response.data;
 };

@@ -3,7 +3,8 @@ import type { ClienteDTO } from "../dto/ClienteDTO";
 
 export const listarClientes = async (): Promise<ClienteDTO[]> => {
   const response = await api.get<ClienteDTO[]>("/clientes");
-  return response.data;
+  // Aseguramos que sea un array aunque venga vacío o undefined
+  return Array.isArray(response.data) ? response.data : [];
 };
 
 export const obtenerCliente = async (id: string): Promise<ClienteDTO> => {
